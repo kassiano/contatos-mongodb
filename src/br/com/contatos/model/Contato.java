@@ -1,10 +1,13 @@
 package br.com.contatos.model;
 
+import org.bson.types.ObjectId;
+
 public class Contato {
 
 	private int id;
 	private String name;
 	private String phone;
+	private ObjectId _id;
 
 
 	@Override
@@ -30,6 +33,14 @@ public class Contato {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public ObjectId get_id() {
+		return _id;
+	}
+
+	public void set_id(ObjectId _id) {
+		this._id = _id;
 	}
 
 

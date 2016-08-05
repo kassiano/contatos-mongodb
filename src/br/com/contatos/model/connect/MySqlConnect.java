@@ -1,4 +1,4 @@
-package br.com.contatos.model;
+package br.com.contatos.model.connect;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

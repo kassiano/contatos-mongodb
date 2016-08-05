@@ -1,4 +1,4 @@
-package br.com.contatos.model;
+package br.com.contatos.model.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.contatos.model.Contato;
+import br.com.contatos.model.connect.MySqlConnect;
 
 public class ContactRepositorio {
 
