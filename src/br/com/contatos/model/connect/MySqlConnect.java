@@ -3,9 +3,9 @@ package br.com.contatos.model.connect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import br.com.contatos.helper.Config;
+
 public class MySqlConnect {
-
-
 
 	public static Connection ConectarDb(){
 		Connection conn=null;
@@ -13,7 +13,9 @@ public class MySqlConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mysql://10.107.134.52/contatos", "root", "root");
+			String ip = Config.DB_SERVER;
+
+			conn = DriverManager.getConnection("jdbc:mysql://"+ ip +"/contatos", "root", "root");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

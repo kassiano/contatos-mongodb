@@ -2,13 +2,15 @@ package br.com.contatos.model.connect;
 
 import com.mongodb.MongoClient;
 
+import br.com.contatos.helper.Config;
+
 public class MongoConnect {
 
 	public static MongoClient conectarDb(){
 
 		MongoClient mongo;
 
-		mongo = new MongoClient( "10.107.134.55" , 27017 );
+		mongo = new MongoClient( Config.DB_SERVER , 27017 );
 
 		return mongo;
 	}

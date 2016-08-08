@@ -10,7 +10,7 @@ import java.util.List;
 import br.com.contatos.model.Contato;
 import br.com.contatos.model.connect.MySqlConnect;
 
-public class ContactRepositorio {
+public class ContactRepositorio implements Repositorio {
 
 
 	public List<Contato> obterContatos(){
@@ -43,9 +43,8 @@ public class ContactRepositorio {
 	    return ret;
 	}
 
-	
 	public boolean deletar(Contato item){
-		
+
 		Connection con = MySqlConnect.ConectarDb();
 
 		String SQL = "delete from contact where id= ?;";
@@ -58,19 +57,19 @@ public class ContactRepositorio {
 
 			preparedStatement.execute();
 			con.close();
-			
+
 			return true;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
-	
+
 	public boolean inserir(Contato item){
-		
+
 		Connection con = MySqlConnect.ConectarDb();
 
 		String SQL = "insert into contact (name, phone) values(?, ?);";
@@ -91,4 +90,35 @@ public class ContactRepositorio {
 			return false;
 		}
 	}
+
+	public boolean atualizar(Contato item){
+
+		Connection con = MySqlConnect.ConectarDb();
+
+		String SQL = "update contact set name=?, phone=? where id= ?;";
+
+		PreparedStatement preparedStatement;
+
+		System.out.println(item);
+
+		try {
+			preparedStatement = con.prepareStatement(SQL);
+			preparedStatement.setString(1, item.getName());
+			preparedStatement.setString(2, item.getPhone());
+			preparedStatement.setInt(3, item.getId());
+
+			preparedStatement.execute();
+			con.close();
+
+			return true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+
+	}
+
 }

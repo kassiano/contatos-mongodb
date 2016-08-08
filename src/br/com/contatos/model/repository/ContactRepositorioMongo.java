@@ -1,28 +1,20 @@
 package br.com.contatos.model.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bson.BsonDocument;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.conversions.Bson;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
 import br.com.contatos.model.Contato;
 import br.com.contatos.model.connect.MongoConnect;
-import br.com.contatos.model.connect.MySqlConnect;
 
-public class ContactRepositorioMongo {
 
+public class ContactRepositorioMongo implements Repositorio  {
 
 	public List<Contato> obterContatos(){
 
@@ -78,12 +70,24 @@ public class ContactRepositorioMongo {
 		return true;
 	}
 
-
 	public boolean atualizar(Contato item){
 
 		MongoClient mongo = MongoConnect.conectarDb();
 		MongoDatabase db= mongo.getDatabase("contatos");
 		MongoCollection<Document> table = db.getCollection("contact");
+
+
+		Document old = new Document("_id", item.get_id());
+
+
+		Document atualizado = new Document();
+		atualizado.append("name", item.getName());
+		atualizado.append("phone", item.getPhone());
+
+		table.updateOne(
+			   old,
+			    new Document("$set", atualizado)
+			);
 
 
 
