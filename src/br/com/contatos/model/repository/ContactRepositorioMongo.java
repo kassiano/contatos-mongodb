@@ -16,15 +16,24 @@ import br.com.contatos.model.connect.MongoConnect;
 
 public class ContactRepositorioMongo implements Repositorio  {
 
+	MongoClient mongo;
+	MongoDatabase db;
+	MongoCollection<Document> table;
+
+	private final static String DB_NAME="DBContatos";
+	private final static String COLLECTION_NAME="contato";
+
+
+	public ContactRepositorioMongo() {
+		mongo = MongoConnect.conectarDb();
+		db= mongo.getDatabase(DB_NAME);
+		table = db.getCollection(COLLECTION_NAME);
+	}
+
+
 	public List<Contato> obterContatos(){
 
-		MongoClient mongo = MongoConnect.conectarDb();
-
 		List<Contato> ret = new ArrayList<>();
-
-		MongoDatabase db= mongo.getDatabase("contatos");
-
-		MongoCollection<Document> table = db.getCollection("contact");
 
 		FindIterable<Document> rs = table.find();
 
@@ -42,10 +51,6 @@ public class ContactRepositorioMongo implements Repositorio  {
 
 	public boolean deletar(Contato item){
 
-		MongoClient mongo = MongoConnect.conectarDb();
-		MongoDatabase db= mongo.getDatabase("contatos");
-		MongoCollection<Document> table = db.getCollection("contact");
-
 
 		Document d = new Document();
 		d.append("_id", item.get_id());
@@ -57,9 +62,6 @@ public class ContactRepositorioMongo implements Repositorio  {
 
 	public boolean inserir(Contato item){
 
-		MongoClient mongo = MongoConnect.conectarDb();
-		MongoDatabase db= mongo.getDatabase("contatos");
-		MongoCollection<Document> table = db.getCollection("contact");
 
 		Document novo = new Document();
 		novo.append("name", item.getName());
@@ -72,13 +74,7 @@ public class ContactRepositorioMongo implements Repositorio  {
 
 	public boolean atualizar(Contato item){
 
-		MongoClient mongo = MongoConnect.conectarDb();
-		MongoDatabase db= mongo.getDatabase("contatos");
-		MongoCollection<Document> table = db.getCollection("contact");
-
-
 		Document old = new Document("_id", item.get_id());
-
 
 		Document atualizado = new Document();
 		atualizado.append("name", item.getName());
@@ -88,8 +84,6 @@ public class ContactRepositorioMongo implements Repositorio  {
 			   old,
 			    new Document("$set", atualizado)
 			);
-
-
 
 		return true;
 	}
